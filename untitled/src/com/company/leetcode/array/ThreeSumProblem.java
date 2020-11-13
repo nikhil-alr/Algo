@@ -1,155 +1,65 @@
 package com.company.leetcode.array;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class ThreeSumProblem {
 
-    static int array[]={-1,0,1};
-    public static void main(String args[])
-    {
-
-
-
-//        if(array.length==0||array[0]==0&&array.length==1)
-//        {
-//            //List<Integer> tmp = new ArrayList<>();
-//            //aray.add(tmp);
-//            return;
-//        }
-//
-//        int tmpSum=0;
-//        List arrayList = null;
-//        for(int i=0;i< array.length;i++)
-//        {
-//            arrayList = new ArrayList<Integer>();
-//            tmpSum+=array[i];
-//        }
-//
-//        List<List<Integer>> aray = new ArrayList<>();
-//
-//
-//        if (tmpSum==0)
-//        {
-//
-//aray.add(arrayList);
-//            return ;
-//        }
-
-        List<List<Integer>> aray = new ArrayList<>();
-
-        int tmpSum = 0;
-        for(int i=0;i< array.length;i++)
-        {
-
-            tmpSum+=array[i];
-        }
-
-
-        if(tmpSum==0&&array.length==3)
-        {
-            List arrayList  = new ArrayList<Integer>();
-            arrayList.add(array[0]);
-            arrayList.add(array[1]);
-            arrayList.add(array[2]);
-            aray.add(arrayList);
-            return;
-        }
-
-
-        mergeSort(array,0,array.length-1);
-
-
-
-
-
-        int pivot = Integer.MAX_VALUE;
-        int pivotIndex = 0;
-        for (int i=0;i<array.length;i++)
-        {
-            if (array[i]>=0&&array[i]<pivot)
-            {
-                pivot = array[i];
-                pivotIndex = i;
-            }
-        }
-
-
-        for (int i=0;i<pivotIndex-1;i++)
-        {
-            int a = array[i];
-            int start = pivotIndex;
-            int end = array.length-1;
-
-            while (start<end)
-            {
-
-                int b = array[start];
-                int c = array[end];
-
-                if((b+c)+a==0)
-                {
-                    List<Integer> tmp = new ArrayList<>();
-                    tmp.add(a);
-                    tmp.add(b);
-                    tmp.add(c);
-                    aray.add(tmp);
-                    //System.out.print("["+a+","+b+","+c+"],");
-                    break;
-                }
-
-                if(b+c>a)
-                {
-                    end-=1;
-                }
-                else
-                {
-                    start+=1;
-                }
-            }
-        }
-
-
-
-        for (int i=pivotIndex;i< array.length;i++)
-        {
-            int a = array[i];
-            int start = 0;
-            int end = pivotIndex-1;
-
-            while (start<end)
-            {
-
-                int b = array[start];
-                int c = array[end];
-
-                if((b+c)+a==0)
-                {
-                    List<Integer> tmp = new ArrayList<>();
-                    tmp.add(b);
-                    tmp.add(c);
-                    tmp.add(a);
-                    aray.add(tmp);
-                    //System.out.print("["+b+","+c+","+a+"]");
-                    break;
-                }
-
-                if(b+c>a)
-                {
-                    end-=1;
-                }
-                else
-                {
-                    start+=1;
-                }
-            }
-        }
-        //System.out.print("]");
-
-
+    static int array[]={3,0,-2,-1,1,2};
+    public static void main(String args[]) {
+    threeSums(array);
 
     }
+
+
+    static List<List<Integer>> threeSums(int array[])
+    {
+        Arrays.sort(array);
+        Set<List<Integer>> resultSet = new LinkedHashSet<>();
+
+//        for (int item:array)
+//        {
+//            System.out.print(item);
+//        }
+
+
+        for (int i=0;i<array.length-2;i++)
+        {
+           //System.out.print(array[i]);
+            int start = i+1;
+            int end = array.length-1;
+           while (start<end)
+            {
+                int a = array[i];
+                int sum = array[start]+array[end];
+                if((a+sum)==0)
+                {
+
+                    resultSet.add(Arrays.asList(array[i],array[start],array[end]));
+
+                   //System.out.println(array[i]+"->"+array[start]+"->"+array[end]);
+                    start+=1;
+                    end-=1;
+                    continue;
+                }
+
+
+                if (a+sum<0)
+                {
+                    start+=1;
+
+                }
+                else
+                {
+                    end-=1;
+                }
+
+            }
+        }
+
+return new ArrayList<>(resultSet);
+    }
+
 
 
     public static void mergeSort(int array[],int start,int end)
