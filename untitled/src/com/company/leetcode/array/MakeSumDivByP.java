@@ -4,85 +4,130 @@ public class MakeSumDivByP {
 
     public static void main(String args[])
     {
-        System.out.print("MAKE SUM DIV BY P");
-        int array[] = {26,19,11,14,18,4,7,1,30,23,19,8,10,6,26,3};
-        int p = 26;
-        System.out.print(makeSumDivByP(p,array));;
+
+        int array[] = {3,6,8,1};
+        int p = 8;
+        int min = Integer.MAX_VALUE;
+        System.out.println(isSubArraySumPresent(p,array));
+
 
     }
 
 
-    static int makeSumDivByP(int p,int array[])
-    {
-        long value = 0;
-
-      value = getSum(array);
-        if (value<p)
-            return -1;
-
-      value = value%p;
-
-
-
-      if(value>0)
-        value = isSubArrayPresent(array,value);
-
-        return (int) value;
-    }
-
-    static long getSum(int array[])
-    {
-        long val = 0;
-        for(int i=0;i<array.length;i++)
-        {
-            val+=array[i];
-        }
-
-
-        return val;
-
-    }
-
-    static int isSubArrayPresent(int array[],long val)
+    static int isSubArraySumPresent(int p,int array[])
     {
 
-int windowUpper = 0;
-int windowDows = 0;
-        int sum = 0;
-        int counter = 0;
+        long totalSum = getTotalSum(array);
+        long divVal = totalSum/p;
 
-        for (int i=0;i<array.length;i++)
+        while (divVal>0)
         {
-            if(array[i]==val)
-                return 1;
-        }
+            long divider = p*divVal;
 
+            if(totalSum<(divider))
+                return -1;
 
-        while(windowUpper>=windowDows)
-        {
+            int subArraySum = (int)(totalSum-divider);
 
-            if(sum==val)
-                return windowUpper-windowDows;
+            if (subArraySum==0)
+                return 0;
 
-            if (windowUpper<array.length)
+            //Subarray Sum for one value
+            for (int item : array)
             {
-                sum += array[windowUpper];
-                windowUpper+=1;
-
-           // counter = windowUpper;
-            }
-            else
-            {
-
-                sum -= array[windowDows];
-                windowDows+=1;
-
+                if (subArraySum==item)
+                    return 1;
 
             }
+            boolean isAvailable = false;
+            int minLen = array.length;
+            int dif = 0;
+            int totalDiff[] = {0,0};
+            while (true){
+                totalDiff = isSumPrenset(array,subArraySum,totalDiff[0]);
+                dif = (totalDiff[1]-totalDiff[0])+1;
+                if(totalDiff[0]>=0)
+                {
+                    //System.out.print("Not matched");
+                    isAvailable = true;
+                    totalDiff[0]+=1;
+
+                    if (minLen>dif)
+                        minLen = dif;
+                    
+                }
+                else
+                {
+                    isAvailable = false;
+                    break;
+                }
+
+            }
+            if (isAvailable)
+                return minLen;
+
+            //Subarray sum for subarray
+//            for (int item : array)
+//            {
+//                if (subArraySum==item)
+//                    return true;
+//
+//            }
+
+
+
+            divVal-=1;
         }
+
 
 
         return -1;
+    }
+
+    static long getTotalSum(int array[])
+    {
+        long totalSum = 0;
+        for (long item : array)
+        {
+            totalSum+=item;
+        }
+    return totalSum;
+    }
+
+    static int[] isSumPrenset(int array[],int sum,int startFrom)
+    {
+        int diff[] = {-1,-1};
+        int left = startFrom;
+        int right = startFrom;
+        int totalSum = 0;
+        while (true)
+        {
+           if(totalSum<sum)
+           {
+               if(right>=array.length)
+                   break;
+               totalSum = totalSum+array[right];
+               right+=1;
+               continue;
+           }
+           if(totalSum>sum)
+           {
+               totalSum=totalSum-array[left];
+               left=left+1;
+               continue;
+           }
+           if(totalSum==sum)
+           {
+               diff[0] = left;
+               diff[1] =  (right-1);
+               //System.out.print("Match");
+               break;
+           }
+
+
+
+        }
+return diff;
     }
 
 }
