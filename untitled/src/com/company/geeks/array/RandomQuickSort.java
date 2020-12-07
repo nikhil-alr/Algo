@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class RandomQuickSort {
-    static int array[] = {17,2,3,4,-15,-6};
 
     public static void main(String args[])
     {
@@ -13,6 +12,8 @@ public class RandomQuickSort {
 
         while (test>0)
         {
+             int array[] = {17,2,3,4,-15,-6};
+
             int length = scanner.nextInt();
             array = new int[length];
             for (int i=0;i<length;i++)
@@ -28,7 +29,7 @@ public class RandomQuickSort {
 //            System.out.print(smallestElement);
 
             test-=1;
-            int kthLargest2 = kthSmallest(smallestElement);
+            int kthLargest2 = kthSmallest(array,smallestElement);
             System.out.println(array[kthLargest2]);
 
 
@@ -40,7 +41,7 @@ public class RandomQuickSort {
     }
 
 
-    static int kthSmallest(int kthSmallest)
+    static int kthSmallest(int array[],int kthSmallest)
     {
         int pivotIndex = -1;
         int low = 0;
@@ -51,6 +52,7 @@ public class RandomQuickSort {
         {
 
             pivotIndex  = quickPartation(array,low, high);
+            System.out.println(pivotIndex);
             if (pivotIndex==kthSmallest)
                 break;
             if(pivotIndex>kthSmallest)
