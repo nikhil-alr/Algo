@@ -5,17 +5,18 @@ import java.util.*;
 
 public class ThreeSumProblem {
 
-    static int array[]={3,0,-2,-1,1,2};
+    static int array[]={1,2,4,3,6};
+    static int k = 10;
     public static void main(String args[]) {
-    threeSums(array);
+    System.out.print(threeSums(array,k));;
 
     }
 
 
-    static List<List<Integer>> threeSums(int array[])
+    static boolean threeSums(int array[],int k)
     {
         Arrays.sort(array);
-        Set<List<Integer>> resultSet = new LinkedHashSet<>();
+        //Set<List<Integer>> resultSet = new LinkedHashSet<>();
 
 //        for (int item:array)
 //        {
@@ -32,19 +33,19 @@ public class ThreeSumProblem {
             {
                 int a = array[i];
                 int sum = array[start]+array[end];
-                if((a+sum)==0)
+                if((a+sum)==k)
                 {
 
-                    resultSet.add(Arrays.asList(array[i],array[start],array[end]));
+                    //resultSet.add(Arrays.asList(array[i],array[start],array[end]));
 
                    //System.out.println(array[i]+"->"+array[start]+"->"+array[end]);
                     start+=1;
                     end-=1;
-                    continue;
+                    return true;
                 }
 
 
-                if (a+sum<0)
+                if (a+sum<k)
                 {
                     start+=1;
 
@@ -57,7 +58,7 @@ public class ThreeSumProblem {
             }
         }
 
-return new ArrayList<>(resultSet);
+return false;
     }
 
 
