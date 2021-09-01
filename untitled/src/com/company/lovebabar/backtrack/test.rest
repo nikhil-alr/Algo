@@ -1,0 +1,8 @@
+GET
+    {test.}
+    &q={q}
+%%%
+# GET
+#     {BASE_URL}/abc?&q={q}
+
+# Error: java.lang.IllegalArgumentException: Expected URL scheme 'http' or 'https' but no colon was found
